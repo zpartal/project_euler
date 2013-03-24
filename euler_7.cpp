@@ -1,5 +1,6 @@
 /*
 Project Euler Problem 7
+
 What is the 10 001st prime number?
 http://projecteuler.net/problem=7
 
@@ -9,21 +10,29 @@ Zachary Partal
 */
 
 #include <iostream>
+#include <vector>
 
 using namespace std;
 
-int main() {
-	int sum_squares = 0;
-	int square_sums = 0;
-	
-	int sum = 0;
-	for (int i = 1; i <= 100; i++) {
-		sum_squares += i*i;
-		sum += i;
+bool isprime(int num) {
+	for (int i = 2; i < num; i++) {
+		if ((num % i) == 0) return false;
 	}
-	square_sums = sum*sum;
-	int output = square_sums - sum_squares;
-	cout << output << endl;
+	return true;
+}
+
+int main() {
+	long num = 3;
+	vector<long> primes;
+	primes.push_back(2);
+	while (primes.size() <= 10001) {
+		if (isprime(num)) {
+			//cout << num << endl;
+			primes.push_back(num);
+		}
+		num++;
+	}
 	
+	cout << primes[10000];
 	return 0;
 }
