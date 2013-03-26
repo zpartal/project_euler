@@ -1,68 +1,56 @@
 /*
-Euler Project 3
+Project Euler Problem 3
 
-The prime factors of 13195 are 5, 7, 13 and 29.
+hat is the largest prime factor of the number 600851475143 ?
+http://projecteuler.net/problem=3
 
-What is the largest prime factor of the number 600851475143 ?
+Zachary Partal
+3/25/2013
+
 */
 
-#include "math.h"
-#include <list>
+#include <iostream>
+#include <vector>
+#include <sstream>
+#include <string>
+#include <math.h>
 
 using namespace std;
 
-int main()
-{
-	double limit = 0;
-	list<int> primes;
-	list<int>::iterator it;
-	list<int>::reverse_iterator rit;
-	
-	cout << "Enter number: ";
-	cin >> limit;
-	
-	// Only generating primes to sqrt(n)
-	
-    // Get square root of limit
-	double sqrtlim = sqrt(limit);
-	int fullsize = int(sqrtlim);
-	
-    // Create list of all numbers 0 -> n (n=limit)
-	for (int i = 0; i <= limit; i++)
-	{
-		primes.push_back(i);
+vector<int> primes_below_n(long long n) {
+	vector<long long> num_list (n+1, 0);
+	vector<int> primes;
+	for (int i = 2; i < n+1; i++) {
+		num_list[i] = i;
 	}
-	
-    
-    // Seive starting at 2
-	int p = 2;
-	
-	while (p*p<limit) // only goes up to p^2
-	{
-		for ( it = primes.begin(); it != primes.end(); it++) // this goes over from the start
-		{
-			if( *it % p == 0 && *it != p)
-			{
-				it = primes.erase(it);
-			}
-		}		
-		p++;
-	}
-	
-	while(true)
-	{
-		cout << "Which prime? \n";
-		int xw;
-		cin >> xw;
-		int count = 0;
-		for ( rit = primes.rbegin(); rit != primes.rend(); rit++)
-		{
-			if( count == xw)
-			{
-			cout << "size: " << *rit << '\n';
-			}
-			count ++;
+	for (int p = 2; p < (int)sqrt(n); p++) {
+		for (int j = 2*p; j < n+1; j = j+p) {
+			num_list[j] = 0;
 		}
 	}
+	for (int i = 0; i < n+1; i++) {
+		if (num_list[i] != 0) primes.push_back(num_list[i]);
+	}	
+	return primes;
+}
+
+int main() {
+	long long num = 600851475143LL;
+	vector<int> primes = primes_below_n(num);
+	int i = 0;
+	int curprime = primes[i];
+	
+	while (curprime*curprime <= num) {
+		if (num % curprime == 0) {
+			cout << curprime;
+			num = num/curprime;			
+		}
+		else {
+			i++;
+			curprime = primes[i];
+		}
+	}
+	
 	return 0;
 }
+
