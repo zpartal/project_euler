@@ -20,22 +20,22 @@ Zachary Partal
 
 using namespace std;
 
+int nod(int n) {
+	int divisors = 0;
+	for (int i = 1; i < (int) sqrt(n); i++) {
+		if (n % i == 0) divisors += 2;
+	}
+	cout << "n: " << n << " div: " << divisors << endl;
+	return divisors;
+}
+
 int main() {
 	
 	int tri_num = 1;
 	int it = 1;
 	int num_divisors = 0;
 	
-	while(true) {
-		// check divisors of tri num up to tri_num
-		for (int i = 1; i <= (int) sqrt(tri_num); i++) {
-			if (tri_num % i == 0) {
-				num_divisors++;
-				if (num_divisors == 500) { cout << "Tri Num: " << tri_num << endl; return 0; }
-			}
-		}
-		num_divisors = 0;
-		// Make next trinum
+	while(nod(tri_num)<501) {
 		it++;
 		tri_num = tri_num + it;	
 		//cout << tri_num << endl;
