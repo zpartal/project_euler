@@ -34,9 +34,9 @@ using namespace std;
 
 int main() {
 	
-	vector<int> lengths(999999);
-	
-	for (int i = 1; i < 1000000; i++) {
+	int largest = 0;
+	int num = 0;
+	for (int i = 1; i <= 1000000; i++) {
 		int length = 1;
 		long long int next = i;
 		while (next != 1) {
@@ -44,17 +44,7 @@ int main() {
 			else next = (3 * next) + 1;	
 			length++;
 		} 
-		lengths[i] = length;
-	}
-	
-	int largest = 0;
-	int num = 0;
-	
-	for (int i = 0; i < lengths.size(); i++) {
-		if (lengths[i] > largest) {
-			largest = lengths[i];
-			num = i;
-		}
+		if (length > largest)  { largest = length; num = i; }
 	}
 	
 	cout << "Largest chain: " << num << endl;
