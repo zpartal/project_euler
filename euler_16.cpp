@@ -6,7 +6,7 @@ What is the sum of the digits of the number 2^1000?
 http://projecteuler.net/problem=16
 
 Zachary Partal
-3/28/2013
+4/14/2013
 
 */
 
@@ -20,48 +20,38 @@ Zachary Partal
 
 using namespace std;
 
-vector<int> double_vec(vector<int> num, int carry, int pos) {
-	cout << "new call " << carry << " " << pos << endl;
-	if ( (num[pos] * 2 + carry) < 10 ) {
-		num[pos] = (num[pos] * 2) + carry;
-		carry = 0;
-		cout << "no carry: " << num[pos] << endl;
-		pos++;
-		cout << "new pos: " << pos << " " << num.size() <<  endl;
-		if (pos == num.size()) { cout << "RETURN" << endl; return num; }
-		else {
-			double_vec(num, carry, pos);
+vector<int> large_power_of_two(int power) {
+	vector<int> result;
+	result.push_back(1);
+	for (int x = 1; x <= power; x++) { // Do this 'power' times
+		for (int i = 0; i < result.size(); i++) { // Go through and double everything
+			result[i] = result[i] * 2;
+		}
+		for (int i = 0; i < result.size(); i++) { // Deal with carries
+			if (result[i] >= 10) {
+				result[i] -= 10;
+				if (i+1 == result.size()) result.push_back(1);
+				else result[i+1] += 1;
+			}
 		}
 	}
-	else {
-		num[pos] = (num[pos] * 2) + carry - 10;
-		carry = 1;
-		cout << "carry : " << num[pos] << endl;
-		cout << "size: " << num.size() << endl;
-		if (pos == (num.size()-1)) {
-			num.push_back(1);
-			return num;
-		}
-		else {
-			pos++;
-			double_vec(num, carry, pos);
-		}
-	}
-	
+	return result;
 }
 
+
 int main() {
-	
-	vector<int> num;
-	num.push_back(1);
-	for (int i = 0; i < 10; i++) {
-		num = double_vec(num, 0, 0);
-	}
-	for (int i = num.size()-1; i >= 0; i--) {
-		cout << num[i];
-	}
-	
-	
+	int input;
+	while(true) {
+		cin >> input;
+		vector<int> result = large_power_of_two(input);
+		long sum = 0;
+		for (int i = result.size() - 1; i >= 0; i--) {
+			cout << result[i] << " ";
+			sum += result[i];
+		}
+		cout << endl;
+		cout << "SUM: " << sum << endl;
+	}	
 	
 	return 0;
 }
